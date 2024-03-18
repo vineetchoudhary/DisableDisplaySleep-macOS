@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DB944BBE2BA89A580098CAF7 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB944BBD2BA89A580098CAF7 /* Log.swift */; };
 		DBF21EFA2BA81A5100F3525C /* OneDSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF21EF92BA81A5100F3525C /* OneDSApp.swift */; };
 		DBF21EFC2BA81A5100F3525C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBF21EFB2BA81A5100F3525C /* MainView.swift */; };
 		DBF21EFE2BA81A5300F3525C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBF21EFD2BA81A5300F3525C /* Assets.xcassets */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DB944BBD2BA89A580098CAF7 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		DBF21EF62BA81A5100F3525C /* DDS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBF21EF92BA81A5100F3525C /* OneDSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneDSApp.swift; sourceTree = "<group>"; };
 		DBF21EFB2BA81A5100F3525C /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -37,6 +39,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DB944BBC2BA89A4C0098CAF7 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				DB944BBD2BA89A580098CAF7 /* Log.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		DBF21EED2BA81A5100F3525C = {
 			isa = PBXGroup;
 			children = (
@@ -56,6 +66,7 @@
 		DBF21EF82BA81A5100F3525C /* DDS */ = {
 			isa = PBXGroup;
 			children = (
+				DB944BBC2BA89A4C0098CAF7 /* Common */,
 				DBF21F0B2BA81BF900F3525C /* ViewModels */,
 				DBF21F0A2BA81BED00F3525C /* Views */,
 				DBF21F0E2BA8252200F3525C /* AppDelegate.swift */,
@@ -161,6 +172,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB944BBE2BA89A580098CAF7 /* Log.swift in Sources */,
 				DBF21F0F2BA8252200F3525C /* AppDelegate.swift in Sources */,
 				DBF21EFC2BA81A5100F3525C /* MainView.swift in Sources */,
 				DBF21EFA2BA81A5100F3525C /* OneDSApp.swift in Sources */,
