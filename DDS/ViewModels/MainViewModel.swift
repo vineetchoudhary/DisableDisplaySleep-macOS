@@ -5,6 +5,7 @@
 //  Created by Vineet Choudhary on 18/03/24.
 //
 
+import Combine
 import Foundation
 import IOKit
 import IOKit.pwr_mgt
@@ -13,22 +14,23 @@ import ServiceManagement
 
 class MainViewModel: ObservableObject {
 	@Published var sleepDisabled = false
-	@Published var launchAtLogin = false {
-		willSet {
-			if newValue {
-				try? SMAppService.mainApp.register()
-			} else {
-				try? SMAppService.mainApp.unregister()
-			}
-		}
-	}
+	@Published var launchAtLoginStatus: SMAppService.Status = .notFound
 
 	private var ioReturn: IOReturn?
 	private var assertionID: IOPMAssertionID = 0
 
-	func disableSleep() {
-		print("disable sleep")
-		let reasonForActivity = "OneDS working..." as CFString
+	private var subscriptions: Set<AnyCancellable> = .init()
+
+	init() {
+		subscribeToSMAppServiceStatus()
+	}
+}
+
+// MARK: - Enable/Disable display sleep
+extension MainViewModel {
+	func disableDisplaySleep() {
+		Log.default.info("Disabling display sleep...")
+		let reasonForActivity = "DDS Active" as CFString
 		ioReturn = IOPMAssertionCreateWithName(
 			kIOPMAssertionTypeNoDisplaySleep as CFString,
 			IOPMAssertionLevel(kIOPMAssertionLevelOn),
@@ -37,16 +39,66 @@ class MainViewModel: ObservableObject {
 
 		if ioReturn == kIOReturnSuccess {
 			sleepDisabled = true
+			Log.default.info("Successfully disabled display sleep.")
 		} else {
 			sleepDisabled = false
+			Log.default.warning("Failed to disabled display sleep.")
 		}
 	}
 
-	func enableSleep() {
-		print("enable sleep")
+	func enableDisplaySleep() {
 		if ioReturn == kIOReturnSuccess {
 			ioReturn = IOPMAssertionRelease(assertionID)
 			sleepDisabled = false
+			Log.default.info("Enabled display sleep.")
 		}
+	}
+}
+
+// MARK: - Launch at login
+extension MainViewModel {
+	func launchAtLogin(_ enable: Bool) {
+		if enable {
+			enableLaunchAtLogin()
+		} else {
+			disableLaunchAtLogin()
+		}
+		launchAtLoginStatus = SMAppService.mainApp.status
+	}
+
+	func openSystemSettingsLoginItems() {
+		SMAppService.openSystemSettingsLoginItems()
+	}
+
+	private func enableLaunchAtLogin() {
+		if launchAtLoginStatus == .notRegistered {
+			do {
+				try SMAppService.mainApp.register()
+			} catch {
+				Log.default.error("Unable to register app for launch at login. \(error)")
+			}
+		}
+	}
+
+	private func disableLaunchAtLogin() {
+		if launchAtLoginStatus == .enabled {
+			do {
+				try SMAppService.mainApp.unregister()
+			} catch {
+				Log.default.error("Unable to unregister app for launch at login. \(error)")
+			}
+		}
+	}
+
+	private func subscribeToSMAppServiceStatus() {
+		SMAppService.mainApp.publisher(for: \.status)
+			.sink { [weak self] status in
+				guard let self else {
+					return
+				}
+
+				launchAtLoginStatus = status
+			}
+			.store(in: &subscriptions)
 	}
 }
