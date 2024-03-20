@@ -37,7 +37,7 @@ struct MainView: View {
 			Image(systemName: model.sleepDisabled ? "checkmark.circle" : "x.circle")
 				.foregroundStyle(model.sleepDisabled ? .green : .red)
 		}
-		.font(.title)
+		.font(.largeTitle)
 	}
 
 	@ViewBuilder
