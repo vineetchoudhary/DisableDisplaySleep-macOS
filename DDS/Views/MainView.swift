@@ -16,6 +16,7 @@ struct MainView: View {
 
     var body: some View {
 		mainView()
+			.navigationTitle("Disable Display Sleep")
     }
 
 	func mainView() -> some View {
@@ -42,12 +43,12 @@ struct MainView: View {
 	@ViewBuilder
 	private func displaySleepHelpView() -> some View {
 		if model.sleepDisabled {
-			Text("Quit application to enable display sleep again.")
+			Text("Quit the application to enable display sleep again.")
 				.font(.title3)
 		} else {
 			VStack(alignment: .center, spacing: LayoutConstants.defaultSpacing) {
-				Text("Something wrong. Please try again.")
-				Text("Application is not able to disable display sleep.")
+				Text("Something went wrong. Please restart the application.")
+				Text("The application is not able to disable display sleep.")
 			}
 			.font(.title3)
 		}
@@ -57,8 +58,10 @@ struct MainView: View {
 	private func launchAtLoginView() -> some View {
 		if model.launchAtLoginStatus == .notFound {
 			VStack(alignment: .center, spacing: LayoutConstants.defaultSpacing) {
-				Text("Add 'DDS.app' to automatically launch at login.")
-				Text("Click here to open Login Items to configure.")
+				Text("Add 'DDS.app' to your Login Items to launch at login.")
+				(Text("Click here to open Login Items")
+					.underline() +
+				Text(" and configure 'DDS.app' to launch automatically at login."))
 			}
 			.font(.title3)
 			.onTapGesture { model.openSystemSettingsLoginItems() }
