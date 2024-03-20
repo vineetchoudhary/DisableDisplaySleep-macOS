@@ -11,16 +11,16 @@ import IOKit
 import IOKit.pwr_mgt
 import ServiceManagement
 
-
 class MainViewModel: ObservableObject {
 	@Published var sleepDisabled = false
 	@Published var launchAtLoginStatus: SMAppService.Status = .notFound
 
 	private var ioReturn: IOReturn?
 	private var assertionID: IOPMAssertionID = 0
-
 	private var subscriptions: Set<AnyCancellable> = .init()
 
+	private let smAppService = SMAppService.mainApp
+	
 	init() {
 		subscribeToSMAppServiceStatus()
 	}
@@ -63,7 +63,11 @@ extension MainViewModel {
 		} else {
 			disableLaunchAtLogin()
 		}
-		launchAtLoginStatus = SMAppService.mainApp.status
+		updateLauncAtLoginStatus()
+	}
+
+	func updateLauncAtLoginStatus() {
+		launchAtLoginStatus = smAppService.status
 	}
 
 	func openSystemSettingsLoginItems() {
@@ -73,7 +77,7 @@ extension MainViewModel {
 	private func enableLaunchAtLogin() {
 		if launchAtLoginStatus == .notRegistered {
 			do {
-				try SMAppService.mainApp.register()
+				try smAppService.register()
 			} catch {
 				Log.default.error("Unable to register app for launch at login. \(error)")
 			}
@@ -83,7 +87,7 @@ extension MainViewModel {
 	private func disableLaunchAtLogin() {
 		if launchAtLoginStatus == .enabled {
 			do {
-				try SMAppService.mainApp.unregister()
+				try smAppService.unregister()
 			} catch {
 				Log.default.error("Unable to unregister app for launch at login. \(error)")
 			}
@@ -91,7 +95,7 @@ extension MainViewModel {
 	}
 
 	private func subscribeToSMAppServiceStatus() {
-		SMAppService.mainApp.publisher(for: \.status)
+		smAppService.publisher(for: \.status, options: [.initial, .new])
 			.sink { [weak self] status in
 				guard let self else {
 					return
