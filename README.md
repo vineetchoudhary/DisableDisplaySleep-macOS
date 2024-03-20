@@ -15,6 +15,9 @@ DDS (Disable Display Sleep) is the ultimate lightweight application for keeping 
 
 Whether you’re presenting, referencing documents, or simply prefer a constant display, DDS is the perfect option to keep your display awake.
 
+## Installation
+To install DDS app, download and unzip the [DDS.zip](https://github.com/vineetchoudhary/DisableDisplaySleep-macOS/releases/download/1.0/DDS.zip) file. Now, move the `DDS.app` to `/Applications` directory.
+
 ## Screenshots
 ### DDS App
 ![](/Docs/Screenshots/dds-app.png)
