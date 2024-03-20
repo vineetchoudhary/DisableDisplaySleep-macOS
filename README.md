@@ -8,10 +8,10 @@
 </p>
 DDS (Disable Display Sleep) is the ultimate lightweight application for keeping your Mac's display awake, regardless of organizational policies enforcing display sleep. Designed to consume close to zero resources, DDS ensures your productivity remains uninterrupted.
 
-## Features:
-- **Zero-Resource Consumption**: Runs quietly using negligible system resources.
+## Features
 - **Instant Engagement**: Prevent display sleep on app launch.
 - **Auto Launch Option**: Configure DDS to launch automatically at login.
+- **Zero-Resource Consumption**: Runs quietly using negligible system resources.
 
 Whether you’re presenting, referencing documents, or simply prefer a constant display, DDS is the perfect option to keep your display awake.
 
