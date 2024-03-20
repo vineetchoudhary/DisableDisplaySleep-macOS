@@ -5,6 +5,7 @@
 //  Created by Vineet Choudhary on 18/03/24.
 //
 
+import AppKit
 import Combine
 import Foundation
 import IOKit
@@ -102,6 +103,16 @@ extension MainViewModel {
 				}
 
 				launchAtLoginStatus = status
+			}
+			.store(in: &subscriptions)
+
+		NotificationCenter.default.publisher(for: NSApplication.willBecomeActiveNotification)
+			.sink { [weak self] status in
+				guard let self else {
+					return
+				}
+
+				updateLauncAtLoginStatus()
 			}
 			.store(in: &subscriptions)
 	}
